@@ -4,7 +4,9 @@ Objetivo: que un tercero, sin contacto con el autor, regenere las Tablas D.2, E.
 
 ## 1. Extracción de seeds (los 13 scripts)
 
-Para cada script, ejecutar y registrar en la tabla del README:
+**EJECUTADO 2026-07-07 — resultado de la auditoría:** los 13 scripts ya tienen seed explícita en cada llamada a `differential_evolution` (bucles deterministas `for seed in range(N)` con derivaciones fijas tipo `s*13+42`) o son deterministas (`hitchin_diagnostic.py` no contiene llamadas estocásticas; su import de DE es vestigial). No hay `np.random.*` global sin sembrar ni `workers=` (paralelismo). Tabla exacta por script: README. Verificación empírica en curso: doble corrida por script con comparación de salidas (excluyendo timestamps).
+
+Para re-auditar en el futuro:
 
 ```bash
 grep -nE "np\.random\.seed|default_rng|torch\.manual_seed|cuda\.manual_seed|seed\s*=" scripts/*.py
@@ -34,6 +36,8 @@ Documentar en este archivo, textualmente, para blindaje ante revisores:
 > Justificación física del criterio: la Cuenca B no reproduce el ratio Δm²₃₁/Δm²₂₁ experimental y se reporta como diagnóstico, no como solución.
 
 ## 4. Resultados de referencia
+
+**Procedimiento (2026-07-07):** con seeds ya auditadas (§1), la corrida canónica se genera en el entorno de producción `g2_tcs` con `herramientas\correr_referencia.bat` (Windows; guarda log por script + versiones del entorno en `resultados_referencia/corrida_produccion/`). Esa corrida pasa a ser la referencia oficial del release v1.0.0. En paralelo, la verificación de determinismo (doble corrida idéntica por script) corre en un entorno Linux independiente; ambas cosas juntas dan: determinismo (misma máquina) + referencia canónica (producción).
 
 Tras congelar seeds e hiperparámetros, correr el pipeline completo una vez y guardar en `resultados_referencia/`:
 - `tabla_D2.csv`, `tabla_E1.csv`, `tabla12.csv`

@@ -26,19 +26,19 @@ python herramientas/calculadora_claseB.py
 
 ## Qué reproduce el pipeline principal (`scripts/`)
 
-| Script | Salida | Seed |
+| Script | Salida | Seeds (en código) |
 |---|---|---|
-| `hitchin_ell_neck.py` | Tabla A.1 — flujo Hitchin, torsión G₂ = 7.3×10⁻⁵ | pendiente congelar |
-| `hitchin_diagnostic.py` | Tabla A.0 — **resultado negativo C₀ ab initio (se conserva)** | pendiente congelar |
-| `degeneracy_analysis.py` | Tabla C.1 | pendiente congelar |
-| `ckm_test.py` | Descarte Tier 1 sector quarks | pendiente congelar |
-| `ls_from_volumes_v2.py` | Tabla D.2 (9/9 observables, C₀ y κ **ajustados**) | pendiente congelar |
-| `volumetric_degeneracy.py` | Tabla E.1 | pendiente congelar |
-| `volumetric_degeneracy_v3.py` | Tabla 12 — Cuenca A (50 seeds, criterio cost<1.0) | pendiente congelar |
-| `seesaw_analysis.py`, `MR_formalization_E8.py`, `K3_kummer_nonisotropic.py`, `via1_neck_combined.py`, `final_model_neck_sectorial.py` | Vías intermedias B.1–B.4 (documentadas, incluidas por transparencia) | pendiente congelar |
-| `predicciones_sensibilidad_TCS16.py` | Anexo H — MC N=10,000 | **42** ✅ |
+| `hitchin_ell_neck.py` | Tabla A.1 — flujo Hitchin, torsión G₂ = 7.3×10⁻⁵ | DE: `seed=s+100` |
+| `hitchin_diagnostic.py` | Tabla A.0 — **resultado negativo C₀ ab initio (se conserva)** | **Determinista** (sin llamadas estocásticas) |
+| `degeneracy_analysis.py` | Tabla C.1 | DE: `seed=0…49` (dos fases) |
+| `ckm_test.py` | Descarte Tier 1 sector quarks | DE: PMNS `seed=0…39`; CKM `seed=s*7+seed_sol` |
+| `ls_from_volumes_v2.py` | Tabla D.2 (9/9 observables, C₀ y κ **ajustados**) | DE: `seed=s*13+42` (×2 fases) y `s*17+7` |
+| `volumetric_degeneracy.py` | Tabla E.1 | DE: `seed=s*13+42` (30 seeds) |
+| `volumetric_degeneracy_v3.py` | Tabla 12 — Cuenca A (50 seeds, criterio cost<1.0) | DE: `seed=s*13+42` (50 seeds) |
+| `seesaw_analysis.py`, `MR_formalization_E8.py`, `K3_kummer_nonisotropic.py`, `via1_neck_combined.py`, `final_model_neck_sectorial.py` | Vías intermedias B.1–B.4 (documentadas, incluidas por transparencia) | DE: `seed=` explícita en toda llamada (`+42/+100/+200/+300/+500/+700`) |
+| `predicciones_sensibilidad_TCS16.py` | Anexo H — MC N=10,000 | `default_rng(42)` ✅ |
 
-**Estado honesto de seeds:** a la fecha, solo `predicciones_sensibilidad_TCS16.py` tiene seed explícita (42). Los 12 restantes deben congelarse siguiendo `REPRODUCIBILIDAD.md` §1 antes del release v1.0; hasta entonces, sus corridas estocásticas no son bit a bit reproducibles.
+**Estado de seeds (auditoría 2026-07-07):** los 13 scripts tienen seeds explícitas en cada llamada estocástica o son deterministas — sin `np.random` global sin sembrar, sin paralelismo (`workers`) no determinista. La nota del pre-registro ("solo `predicciones_sensibilidad` con seed explícita") era más conservadora que el código real; se corrige aquí con la tabla exacta. Verificación empírica de determinismo (doble corrida idéntica por script) y salidas de referencia canónicas del entorno de producción: en curso — ver `REPRODUCIBILIDAD.md` §1 y §4.
 
 ## Transparencia declarada
 
