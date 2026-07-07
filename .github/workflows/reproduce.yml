@@ -1,0 +1,52 @@
+name: reproduce
+on: [push, workflow_dispatch]
+
+jobs:
+  mre-y-calculadora:
+    # Corre HOY en verde: MRE R16.7 (numpy, CPU) + calculadora Clase B (stdlib)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Instalar dependencias del MRE
+        run: pip install -r mre_r16_7/requirements.txt
+      - name: MRE — verifier end-to-end
+        run: cd mre_r16_7 && python run_verifier.py
+      - name: MRE — tests unitarios
+        run: cd mre_r16_7 && python -m unittest discover tests -v
+      - name: Calculadora Clase B (determinista, stdlib)
+        run: python herramientas/calculadora_claseB.py
+      - name: Verificar consistencia del JSON de resultados del MRE
+        run: |
+          python - <<'EOF'
+          import json
+          ref = json.load(open("resultados_referencia/results_R16_7.json"))
+          new = json.load(open("mre_r16_7/outputs/results_R16_7.json"))
+          # Claims estructurales deben coincidir exactamente entre corrida CI y referencia
+          assert new["permutation_check"]["is_permutation"] is True
+          assert new["permutation_check"]["image_count"] == ref["permutation_check"]["image_count"] == 256
+          assert new["reversibility_trials"]["passed"] is True and new["reversibility_trials"]["failures"] == []
+          assert new["geometry"]["within_broad_tolerance"] is True
+          print("OK: claims estructurales del MRE coinciden con la referencia")
+          EOF
+
+  pipeline-completo:
+    # Pipeline pesado del Tomo II: solo manual, entorno real pinneado (environment.yml, CPU puro)
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          environment-file: environment.ci.yml
+          activate-environment: g2_tcs
+      - name: Smoke run CPU (seeds reducidas)
+        shell: bash -l {0}
+        run: |
+          echo "PENDIENTE: congelar seeds e hiperparámetros (REPRODUCIBILIDAD.md §1-§2)"
+          echo "Luego: G2_CI_FAST=1 python scripts/volumetric_degeneracy_v3.py"
