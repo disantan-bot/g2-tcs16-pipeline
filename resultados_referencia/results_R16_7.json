@@ -1,0 +1,56 @@
+{
+  "generated_utc": "2026-07-02T00:24:25.175924+00:00",
+  "permutation_check": {
+    "n": 2,
+    "state_count": 256,
+    "image_count": 256,
+    "is_permutation": true,
+    "uniform_entropy_bits_before": 8.0,
+    "uniform_entropy_bits_after": 8.0
+  },
+  "reversibility_trials": {
+    "n": 16,
+    "steps": 64,
+    "seeds": 25,
+    "passed": true,
+    "failures": []
+  },
+  "trajectory_observables": {
+    "n": 16,
+    "steps": 64,
+    "seed": 0,
+    "density_start": 0.484375,
+    "density_end": 0.45703125,
+    "density_min": 0.4375,
+    "density_max": 0.61328125,
+    "density_mean": 0.5028245192307692,
+    "note": "Hamming density is a macroscopic observable and is not generally conserved."
+  },
+  "geometry": {
+    "n": 32,
+    "times_min": 1.0,
+    "times_max": 10.0,
+    "spectral_dimension_median_central": 2.0969321491740907,
+    "spectral_dimension_min_central": 2.0501834259784744,
+    "spectral_dimension_max_central": 2.2135975656828677,
+    "expected_dimension_for_planted_torus": 2.0,
+    "within_broad_tolerance": true,
+    "interpretation": "Pipeline sanity check: planted 2D torus returns dimension near 2."
+  },
+  "claim_ledger": {
+    "green": [
+      "Finite-state update T is a permutation for the fully enumerated N=2 state space.",
+      "Forward evolution followed by exact inverse recovers initial states for all random trials."
+    ],
+    "amber": [
+      "Spectral geometry pipeline recovers a dimension near 2 for a planted 2D torus.",
+      "Information conservation is verified here as finite reversibility/bijection, not as a full physical derivation."
+    ],
+    "open": [
+      "Derivation of Standard Model field content is not implemented.",
+      "Derivation of physical constants is not implemented.",
+      "Emergent Lorentzian spacetime/gravity is not implemented.",
+      "A new falsifiable physical prediction is not implemented."
+    ]
+  }
+}

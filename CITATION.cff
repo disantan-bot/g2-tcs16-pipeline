@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "Si usa este codigo, cite el repositorio y el pre-registro (DOI Zenodo)."
+title: "G2-TCS-16: pipeline de validacion numerica"
+authors:
+  - family-names: "Santana S."
+    given-names: "Diego"
+    affiliation: "AMI Group, Santiago, Chile"
+version: 1.0.0
+date-released: "2026-07-07"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21231245"
+    description: "Pre-registro de predicciones falsables con sello temporal (Zenodo, 2026-07-07)"
+license: MIT

@@ -1,0 +1,27 @@
+{
+  "_comentario": "Parámetros de oscilación (NO, best fit) para calculadora_claseB.py. Dm2_3l es el splitting atmosférico tal como lo reporta NuFIT (= Dm2_31 para NO). Verificar contra nu-fit.org antes de congelar el preregistro.",
+  "_fuente": "www.nu-fit.org — tabla v60.tbl-parameters.pdf (verificada 2026-07-01) y NuFIT 5.2 (2022)",
+  "fits": {
+    "NuFIT_5.2_sinSK": {
+      "descripcion": "NuFIT 5.2 (nov 2022), NO, sin datos atmosféricos SK — entrada usada por el pipeline del Tomo II",
+      "sin2_theta12": 0.303,
+      "sin2_theta13": 0.02225,
+      "dm2_21": 7.41e-05,
+      "dm2_3l": 2.507e-03
+    },
+    "NuFIT_6.0_IC24_conSK": {
+      "descripcion": "NuFIT 6.0 (sep 2024), NO best fit, IC24 con datos atmosféricos SK — fit vigente",
+      "sin2_theta12": 0.308,
+      "sin2_theta13": 0.02215,
+      "dm2_21": 7.49e-05,
+      "dm2_3l": 2.513e-03
+    },
+    "NuFIT_6.0_IC19_sinSK": {
+      "descripcion": "NuFIT 6.0 (sep 2024), NO, IC19 sin SK atmosférico",
+      "sin2_theta12": 0.307,
+      "sin2_theta13": 0.02195,
+      "dm2_21": 7.49e-05,
+      "dm2_3l": 2.534e-03
+    }
+  }
+}
